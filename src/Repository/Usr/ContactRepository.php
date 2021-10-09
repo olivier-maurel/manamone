@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Usr;
 
 use App\Entity\Usr\Contact;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

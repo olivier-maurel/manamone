@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\App;
 
-use App\Entity\Usr\AddrIp;
+use App\Entity\App\Account;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method AddrIp|null find($id, $lockMode = null, $lockVersion = null)
- * @method AddrIp|null findOneBy(array $criteria, array $orderBy = null)
- * @method AddrIp[]    findAll()
- * @method AddrIp[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Account|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Account|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Account[]    findAll()
+ * @method Account[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AddrIpRepository extends ServiceEntityRepository
+class AccountRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AddrIp::class);
+        parent::__construct($registry, Account::class);
     }
 
     // /**
-    //  * @return AddrIp[] Returns an array of AddrIp objects
+    //  * @return Account[] Returns an array of Account objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class AddrIpRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?AddrIp
+    public function findOneBySomeField($value): ?Account
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

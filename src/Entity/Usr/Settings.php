@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=SettingsRepository::class)
+ * @ORM\Table(name="usr_settings")
  */
 class Settings
 {
