@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Project{% endblock %}
+
+{% block body %}
+    <h1>Create new Project</h1>
+
+    {{ include('app/project/_form.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('js/iconpicker.js') }}"></script>
+{% endblock %}

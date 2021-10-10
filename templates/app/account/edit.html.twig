@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Account{% endblock %}
+
+{% block body %}
+    <h1>Edit Account</h1>
+
+    {{ include('app/account/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    {{ include('app/account/_delete_form.html.twig') }}
+{% endblock %}
+
+
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('js/iconpicker.js') }}"></script>
+{% endblock %}

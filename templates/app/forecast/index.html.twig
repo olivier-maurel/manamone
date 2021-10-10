@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forecast{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="card card-body table-container">
+    <div class="table-responsive">
+        <table class="table table-sm mb-0 table-centered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <td>Nom</td>
+                    <td>Valeur</td>
+                    <td>Fréquence</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>name</td>
+                    <td>value</td>
+                    <td>
+                        <select>
+                            <option>Par mois</option>
+                            <option>Par mois</option>
+                            <option>Par mois</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>name</td>
+                    <td>value</td>
+                    <td>
+                        <select>
+                            <option>Par mois</option>
+                            <option>Par mois</option>
+                            <option>Par mois</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Total</td>
+                    <td>1640</td>
+                    <td>54%</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endblock %}

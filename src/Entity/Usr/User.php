@@ -4,7 +4,7 @@ namespace App\Entity\Usr;
 
 use App\Entity\App\Account;
 use App\Entity\App\Project;
-use App\Repository\UserRepository;
+use App\Repository\Usr\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -96,6 +96,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Project::class, mappedBy="user")
      */
     private $projects;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Project::class, cascade={"persist", "remove"})
+     */
+    private $currentProject;
 
     public function __construct()
     {
@@ -381,6 +386,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $project->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCurrentProject(): ?Project
+    {
+        return $this->currentProject;
+    }
+
+    public function setCurrentProject(?Project $currentProject): self
+    {
+        $this->currentProject = $currentProject;
 
         return $this;
     }

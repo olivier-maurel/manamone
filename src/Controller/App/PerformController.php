@@ -12,11 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class PerformController extends AbstractController
 {
     /**
-     * @Route("", name="_index")
+     * @Route(name="_index")
      */
     public function index(): Response
     {
-        return $this->render('App/Perform/index.html.twig', [
+        return $this->render('app/perform/index.html.twig', [
             'controller_name' => 'PerformController',
         ]);
     }

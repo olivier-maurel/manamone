@@ -63,6 +63,7 @@ class Project
 
     public function __construct()
     {
+        $this->created_at = new \DateTime();
         $this->envelopes = new ArrayCollection();
     }
 

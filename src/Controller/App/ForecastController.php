@@ -12,11 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ForecastController extends AbstractController
 {
     /**
-     * @Route("", name="_index")
+     * @Route(name="_index")
      */
     public function index(): Response
     {
-        return $this->render('App/Forecast/index.html.twig', [
+        return $this->render('app/forecast/index.html.twig', [
             'controller_name' => 'ForecastController',
         ]);
     }

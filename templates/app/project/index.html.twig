@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}project index{% endblock %}
+
+{% block body %}
+    <div>
+        <div class="pt-5 text-center border-bottom" style="background-color: #f4f7ff;">
+            <h1 class="mb-1 pb-2">Mes projets</h1>
+        </div>
+        <div class="text-center mt-2 mb-5">
+            <span class="small text-muted">{{ projects|length }} / 3</span>
+        </div>
+    </div>
+
+    <div class="body-content" style="max-width: 600px;">
+        {% for project in projects %}
+            <div class="col-lg small">
+                <div class="card shadow" style="background-color: {{ project.color }}30;overflow: hidden;">
+                    <div class="card-body p-0 pt-2">
+                        <a href="{{ path('app_project_edit', {'id': project.id}) }}" class="card-header px-4 pt-3 d-block w-100 position-relative" style="overflow: hidden;">
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-0 pb-2">
+                                <span class="h4 mt-0" title="{{ project.name }}">{{ project.name | truncate(45) }}</span>
+                                <span class="d-flex flex-column text-center">
+                                    
+                                </span>
+                            </div>
+                            <p class="small text-muted card-p">{{ project.description }}</p>
+                            <div style="position: absolute; left: -1rem; top: 1rem; opacity: .1;color: {{ project.color }};">
+                                <i class="{{ project.icon }}" style="font-size: 6rem"></i>
+                            </div>
+                        </a>
+                        <div class="card-body p-2 bg-light d-flex justify-content-between align-items-center">
+                            <small class="text-muted col-lg-4">Créé le : <b>{{ project.createdAt|date('d/m/Y') }}</b></small>
+                            <div class="col-lg-4 text-center">
+                                <a href="#" class="btn-sm btn-secondary">Editer</a>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-end col-lg-4">
+                                <label for="radio_{{ project.id }}" class="me-1 text-muted pointer">Actuel</label>
+                                <input id="radio_{{ project.id }}" type="radio" name="current_project" data-id="{{ project.id }}"
+                                {% if current.id == project.id %}checked{% endif %}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="d-flex flex-column">
+                <span class="text-center h3">Vous n'avez aucun projet...</span>
+                <span class="text-center h5 text-primary">Créez en un ! ;)</span>
+            </div>
+        {% endfor %}
+        <a href="{{ path('app_project_new') }}" class="d-block btn btn-success mt-5 m-auto">Ajouter un projet</a>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    
+    $('input[name="current_project"]').on('change', function(){
+        console.log($(this).attr('data-id'));
+        $.post("{{ path('app_project_current') }}", {project: $(this).attr('data-id')}, function(data){
+            console.log(data);
+        })
+    })
+</script>
+{% endblock %}

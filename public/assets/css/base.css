@@ -1,0 +1,53 @@
+body {
+    width: calc(100vw - 3rem);
+    margin-left: 3rem;
+}
+.body-content {
+    width: 80%;
+    margin: auto;
+    padding-bottom: 5rem;
+}
+.leftbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    max-width: 3rem; 
+}
+.leftbar-content {
+    height: calc(100% - 6rem);
+    width: 100%;
+    margin: 3rem 0;
+}
+.leftbar-nav ul {
+    display: flex;
+    flex-direction: column;
+}
+.leftbar-nav ul li {
+    height: 3rem;
+    width: 3rem;
+}
+.leftbar-nav a {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: .6;
+    transition: .3s;
+    color: white;
+    font-size: 1.1rem;
+}
+.leftbar-nav a:hover {
+    opacity: 1;
+}
+.btn {
+    width: fit-content;
+}
+.card-p {
+    height: 4.2rem;
+    overflow: auto;
+    background-color: #fafbfb;
+    padding: .3rem;
+}

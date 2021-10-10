@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes comptes{% endblock %}
+
+{% block body %}
+    <div>
+        <div class="pt-5 text-center border-bottom" style="background-color: #f4f7ff;">
+            <h1 class="mb-1 pb-2">Mes comptes</h1>
+        </div>
+        <div class="text-center mt-2 mb-5">
+            <span class="small text-muted">{{ accounts|length }} / 3</span>
+        </div>
+    </div>
+    <div class="body-content row" style="max-width: 600px;">
+        {% for account in accounts %}
+            <div class="col-lg small">
+                <div class="card shadow" style="background-color: {{ account.color }}30;overflow: hidden;">
+                    <div class="card-body p-0 pt-2">
+                        <a href="{{ path('app_account_edit', {'id': account.id}) }}" class="card-header px-4 pt-3 d-block w-100 position-relative" style="overflow: hidden;">
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-0 pb-2">
+                                <span class="h4 mt-0" title="{{ account.name }}">{{ account.name | truncate(45) }}</span>
+                                <span class="d-flex flex-column text-center">
+                                    <i class="h6 mb-1 pb-1 border-bottom {{ account.currency.icon }}"></i>
+                                    <small>{{ account.currency.code }}</small>
+                                </span>
+                            </div>
+                            <p class="small text-muted card-p">{{ account.description }}</p>
+                            <div style="position: absolute; left: -1rem; top: 1rem; opacity: .1;color: {{ account.color }};">
+                                <i class="{{ account.icon }}" style="font-size: 6rem"></i>
+                            </div>
+                        </a>
+                        <div class="card-body p-2 bg-light small">
+                            <small class="text-muted small">Créé le : <b>{{ account.createdAt|date('d/m/Y') }}</b></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="d-flex flex-column">
+                <span class="text-center h3">Vous n'avez aucun compte...</span>
+                <span class="text-center h5 text-primary">Créez en un ! ;)</span>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{{ path('app_account_new') }}" class="d-block btn btn-secondary mt-4 m-auto">Ajouter un compte</a>
+{% endblock %}

@@ -12,11 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class AnalysisController extends AbstractController
 {
     /**
-     * @Route("", name="_index")
+     * @Route(name="_index")
      */
     public function index(): Response
     {
-        return $this->render('App/Analysis/index.html.twig', [
+        return $this->render('app/analysis/index.html.twig', [
             'controller_name' => 'AnalysisController',
         ]);
     }

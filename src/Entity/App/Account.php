@@ -47,7 +47,7 @@ class Account
     private $color;
 
     /**
-     * @ORM\Column(type="string", length=3)
+     * @ORM\ManyToOne(targetEntity=Currency::class)
      */
     private $currency;
 
@@ -68,6 +68,7 @@ class Account
 
     public function __construct()
     {
+        $this->created_at = new \DateTime();
         $this->envelopes = new ArrayCollection();
     }
 
@@ -136,12 +137,12 @@ class Account
         return $this;
     }
 
-    public function getCurrency(): ?string
+    public function getCurrency(): ?Currency
     {
         return $this->currency;
     }
 
-    public function setCurrency(string $currency): self
+    public function setCurrency(Currency $currency): self
     {
         $this->currency = $currency;
 
