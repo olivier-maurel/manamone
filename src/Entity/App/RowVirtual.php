@@ -5,6 +5,7 @@ namespace App\Entity\App;
 use App\Repository\App\RowVirtualRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,7 +39,7 @@ class RowVirtual
 
     /**
      * @ORM\ManyToOne(targetEntity=Frequency::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, columnDefinition="INT(11) default '1'")
      */
     private $frequency;
 
@@ -64,7 +65,10 @@ class RowVirtual
 
     public function __construct()
     {
-        $this->rowFactuals = new ArrayCollection();
+        $this->name         = 'Nouvelle ligne';
+        $this->value        = 0;
+        $this->created_at   = new \DateTime();
+        $this->rowFactuals  = new ArrayCollection();
     }
 
     public function getId(): ?int

@@ -19,6 +19,16 @@ class EnvelopeRepository extends ServiceEntityRepository
         parent::__construct($registry, Envelope::class);
     }
 
+    public function countAll()
+    {
+        return $this->createQueryBuilder('e')
+            ->select('COUNT(e)')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getSingleScalarResult()
+        ;
+    }
+
     // /**
     //  * @return Envelope[] Returns an array of Envelope objects
     //  */

@@ -395,7 +395,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->currentProject;
     }
 
-    public function setCurrentProject(?Project $currentProject): self
+    public function setCurrentProject(?Project $currentProject = null): self
     {
         $this->currentProject = $currentProject;
 

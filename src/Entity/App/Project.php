@@ -57,7 +57,7 @@ class Project
     private $created_at;
 
     /**
-     * @ORM\OneToMany(targetEntity=Envelope::class, mappedBy="project")
+     * @ORM\OneToMany(targetEntity=Envelope::class, mappedBy="project", orphanRemoval=true)
      */
     private $envelopes;
 

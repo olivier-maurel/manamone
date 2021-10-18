@@ -5,6 +5,7 @@ namespace App\Repository\App;
 use App\Entity\App\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\AbstractQuery;
 
 /**
  * @method Project|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,16 @@ class ProjectRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Project::class);
+    }
+
+    public function countAll()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('COUNT(p)')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getSingleScalarResult()
+        ;
     }
 
     // /**

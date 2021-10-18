@@ -21,7 +21,7 @@ class Category
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Envelope::class, inversedBy="categories")
+     * @ORM\ManyToOne(targetEntity=Envelope::class, inversedBy="categories", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $envelope;
@@ -55,6 +55,12 @@ class Category
      * @ORM\OneToMany(targetEntity=RowVirtual::class, mappedBy="category", orphanRemoval=true)
      */
     private $rowVirtuals;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=CategoryTemplate::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $template;
 
     public function __construct()
     {
@@ -164,6 +170,18 @@ class Category
                 $rowVirtual->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTemplate(): ?CategoryTemplate
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?CategoryTemplate $template): self
+    {
+        $this->template = $template;
 
         return $this;
     }

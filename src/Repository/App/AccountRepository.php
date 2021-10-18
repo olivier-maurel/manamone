@@ -18,4 +18,14 @@ class AccountRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Account::class);
     }
+
+    public function countAll()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a)')
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getSingleScalarResult()
+        ;
+    }
 }

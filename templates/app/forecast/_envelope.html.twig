@@ -1,0 +1,8 @@
+<div class="p-2" style="background-color: {{ envelope.color }};">
+    <h2 class="h2">{{ envelope.name }}</h2>
+    {% for category in envelope.categories %}
+        {{ include('app/forecast/_category.html.twig', {
+            category: category
+        }) }}
+    {% endfor %}
+</div>

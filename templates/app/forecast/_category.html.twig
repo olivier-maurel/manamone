@@ -1,0 +1,8 @@
+<div class="p-2" style="background-color: {{ category.color }};">
+    <h3 class="h3">{{ category.name }}</h3>
+    {% for row in category.rowVirtuals %}
+        {{ include('app/forecast/_row.html.twig', {
+            row: row
+        }) }}
+    {% endfor %}
+</div>

@@ -6,6 +6,8 @@ use App\Entity\App\Project;
 use App\Form\App\ProjectType;
 use App\Repository\App\ProjectRepository;
 use App\Service\ProjectService;
+use App\Service\UserService;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProjectController extends AbstractController
 {
 
-    public function __construct(ProjectService $projectService)
+    public function __construct(ProjectService $projectService, UserService $userService)
     {
         $this->projectService = $projectService;
+        $this->userService = $userService;
     }
 
     /**
@@ -62,6 +65,12 @@ class ProjectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($this->userService->checkUserRole('project') === false) {
+                $this->addFlash('error', 'Votre nombre limite de projet a été atteind');
+                return $this->redirectToRoute('app_project_index', [], Response::HTTP_SEE_OTHER);
+            }
+
             $this->projectService->addProject($project);
             
             return $this->redirectToRoute('app_project_index', [], Response::HTTP_SEE_OTHER);
@@ -72,6 +81,12 @@ class ProjectController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    // if ($this->us->checkUserRole('project') === false)
+    //     return new JsonResponse([
+    //         'success' => false,
+    //         'message' => 'Votre nombre limite de projet a été atteind'
+    //     ]);
 
     /**
      * @Route("/{id}", name="app_project_show", methods={"GET"})
