@@ -1,4 +1,25 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr':{'id': 'form_item','data-code': 'cat','data-id': category.id}}) }}
+    <div class="modal-body">
+        <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+        <div class="form-group">
+            <span class="input-group-append">
+                <button id="iconpicker" class="btn btn-outline-secondary" data-icon="{{ category.icon }}"  role="iconpicker"></button>
+            </span>
+            <span class="input-group-append">
+                {{ form_widget(form.color) }}
+            </span>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.startDate) }}
+            {{ form_widget(form.startDate) }}
+            {{ form_label(form.endStart) }}
+            {{ form_widget(form.endStart) }}
+        </div>
+    </div>
+    <div class="modal-body">
+        <button type="submit" class="btn btn-success m-auto d-block">{{ button_label|default('Save') }}</button>
+    </div>
 {{ form_end(form) }}

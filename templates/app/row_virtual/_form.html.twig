@@ -1,4 +1,4 @@
-{{ form_start(form, {'attr':{'data-id': row_virtual.id}}) }}
+{{ form_start(form, {'attr':{'id': 'form_item','data-code': 'rov','data-id': row_virtual.id}}) }}
     <div class="modal-body">
         <div class="form-group">
             {{ form_label(form.name) }}
@@ -18,6 +18,6 @@
         </div>
     </div>
     <div class="modal-body">
-        <button id="submit_edit_row_virtual" type="submit" class="btn btn-success m-auto d-block">{{ button_label|default('Save') }}</button>
+        <button type="submit" class="btn btn-success m-auto d-block">{{ button_label|default('Save') }}</button>
     </div>
 {{ form_end(form) }}

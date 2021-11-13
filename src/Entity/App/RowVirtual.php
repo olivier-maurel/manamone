@@ -22,7 +22,7 @@ class RowVirtual
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="rowVirtuals")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="rowVirtuals", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;

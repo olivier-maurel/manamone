@@ -1,13 +1,4 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Edit Category{% endblock %}
-
-{% block body %}
-    <h1>Edit Category</h1>
-
-    {{ include('app/category/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_category_index') }}">back to list</a>
-
-    {{ include('app/category/_delete_form.html.twig') }}
-{% endblock %}
+<div class="modal-header">
+    <h3>Modification d'une catégorie</h3>                   
+</div>
+{{ include('app/category/_form.html.twig', {'button_label': 'Update'}) }}

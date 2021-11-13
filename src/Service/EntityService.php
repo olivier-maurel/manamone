@@ -34,7 +34,7 @@ class EntityService extends MainService
      * @param Request
      * @return string
      */
-    public function removeEntity(Request $request)
+    public function deleteEntity(Request $request)
     {
         $data = $request->request->get('data');
 
@@ -44,14 +44,65 @@ class EntityService extends MainService
         return $this->getInfos($data['code'])->getCode();
     }
 
+    /**
+     * Edite une entité
+     * @param Request
+     * @return object
+     */
+    public function editEntity(Request $request)
+    {
+        $data = $request->request->get('data');
+        parse_str($request->request->get('form'), $form);
+
+        $item = $this->getEntity($data['code'], $data['id']);
+        $info = $this->getInfos($data['code']);
+
+        foreach ($form[$info->getLabel()] as $key => $value) {
+            if ($key === '_token') continue;
+            
+            $function = 'set'.$this->convertLabel($key);
+            $class = $this->getInfos($key, 1);
+            
+            if ($class !== null)
+                $value = $this->getEntity($class->getCode(), $value);
+            
+            $item->$function(($value !== '')?$value:null);
+        }
+        
+        $this->em->flush();
+        $this->em->clear();
+
+        return $item;
+    }
+
+    /**
+     * Affiche le formulaire d'édition d'une entité
+     * @param Request
+     * @return string
+     */
+    public function formEntity(Request $request)
+    {
+        $data = $request->request->get('data');
+        $info = $this->getInfos($data['code']);
+
+        return [
+            'entity' => $this->getEntity($data['code'], $data['id']),
+            'label'  => $info->getLabel(),
+            'class'  => $info->getClass()
+        ];
+    }
+
     /** PRIVATE
      * Récupère les informations d'une entité
      * @param string
      * @return array
      */
-    private function getInfos(string $code)
+    private function getInfos(string $code, bool $full = false)
     {
-        return $this->em->getRepository(Entity::class)->findByCode($code);
+        if ($full === true)
+            return $this->em->getRepository(Entity::class)->findByLabel($code);
+        else
+            return $this->em->getRepository(Entity::class)->findByCode($code);
     }
 
     /** PRIVATE
@@ -80,6 +131,16 @@ class EntityService extends MainService
                 $entity[$code] = $this->getEntity($code, $data[$code]);
 
         return $entity;
+    }
+
+    /** PRIVATE
+     * Convertie en CamelCase
+     * @param string
+     * @return string
+     */
+    private function convertLabel(string $str)
+    {
+        return str_replace(' ', '', ucwords(str_replace('_', ' ', $str)));
     }
 
 }

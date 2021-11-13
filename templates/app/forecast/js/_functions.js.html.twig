@@ -3,7 +3,16 @@
     // * FUNCTIONS : _functions.js.html.twig
     // *
 
-    function areYouSure($this)
+    function addItem($this)
+    {
+        $.post("{{ path('app_forecast_add') }}", {data: $this.data()},
+        function(data){
+            if(data['success'] === true) 
+                $('#forecast_table').html(data['content']);
+        });
+    }
+
+    function deleteItem($this)
     {
         let swal = Swal.mixin({
             customClass: {
@@ -45,6 +54,48 @@
 
             }
         })
+    }
+
+    function editItem($this, e)
+    {
+        e.preventDefault();
+
+        $.post("{{ path('app_forecast_edit') }}", {
+            data: $this.data(),
+            form: $this.serialize()
+        }, function(data){
+            if(data['success'] === true) {
+                let swal = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+                swal.fire({
+                    icon: 'success',
+                    title: data['message']
+                });
+                $('#forecast_table').html(data['content']);
+            }
+        });
+
+        $('#modal').modal('hide');
+    }
+
+    function formItem($this)
+    {
+        $.post("{{ path('app_forecast_form') }}", {
+            data: $this.data()
+        }, function(data){
+            if(data['success'] === true) {
+                $('#modal_content').html(data['content']);
+            }
+        });
     }
 
     function swalToast(type, message)
