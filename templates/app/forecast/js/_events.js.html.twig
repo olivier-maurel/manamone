@@ -1,0 +1,88 @@
+<script> 'use strict';
+    // *
+    // * EVENTS : _events.js.html.twig
+    // *
+
+    // Remove a item.
+    $(document.body).on('click', '.delete-item', function(){
+        areYouSure($(this));
+    });
+
+    /**
+     * ROW VIRTUAL
+     */
+    // Add a new virtual row.
+    $(document.body).on('click', '.add-item', function(){
+
+        $.post("{{ path('app_forecast_add') }}", {data: $(this).data()},
+        function(data){
+            if(data['success'] === true) 
+                $('#forecast_table').html(data['content']);
+        });
+
+    });
+
+    // Display modal form for edit a virtual row.
+    $(document.body).on('click', '.edit-virtual', function(){
+        $.post("{{ path('app_row_virtual_edit_form') }}", {
+            id: $(this).attr('data-id')
+        }, function(data){
+            if(data['success'] === true) {
+                $('#modal_content').html(data['content']);
+            }
+        });
+    });
+
+    // Edit a virtual row.
+    $(document.body).on('submit', 'form[name=row_virtual]', function(e){
+
+        e.preventDefault();
+
+        let form = $(this);
+        let id = form.attr('data-id');
+
+        $.post("{{ path('app_row_virtual_edit') }}", {
+            id: id,
+            form: form.serialize()
+        }, function(data){
+            if(data['success'] === true) {
+                let swal = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+                swal.fire({
+                    icon: 'success',
+                    title: data['message']
+                });
+                $(`#rv_${id}`).prop('outerHTML', data['content'])
+            }
+        });
+
+        $('#modal').modal('hide');
+
+    });
+
+    /**
+     * CATEGORY
+     */
+    // Add a new category.
+    $(document.body).on('click', '.new-category', function(){
+        let template = $(this).attr('data-template');
+        $.post("{{ path('app_category_new') }}",{
+            envelope: $(this).attr('data-envelope'),
+            category_template: template
+        }, function(data){
+                if (data['success'] === true) {
+                    $('div[data-template='+template+']').last().append(data['content']);
+                }
+            }
+        );
+    });
+</script>

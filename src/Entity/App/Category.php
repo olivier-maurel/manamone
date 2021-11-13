@@ -57,14 +57,19 @@ class Category
     private $rowVirtuals;
 
     /**
+     * 
      * @ORM\ManyToOne(targetEntity=CategoryTemplate::class)
-     * @ORM\JoinColumn(nullable=false)
      */
     private $template;
 
     public function __construct()
     {
         $this->rowVirtuals = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getId(): ?int

@@ -1,0 +1,69 @@
+<script> 'use strict';
+    // *
+    // * FUNCTIONS : _functions.js.html.twig
+    // *
+
+    function areYouSure($this)
+    {
+        let swal = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger me-2'
+            },
+            buttonsStyling: false
+        });
+        
+        swal.fire({
+            title: `Souhaitez-vous vraiment supprimer "${$this.siblings('.rv-name').text()}"?`,
+            text: "Suppression définitive",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Supprimer',
+            cancelButtonText: 'Annuler',
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.post("{{ path('app_forecast_delete') }}", {
+                    data: $this.data()
+                }, function(data){
+
+                    if(data['success'] === true) {
+
+                        $this.parents(`#${data['content']}_${$this.data('id')}`).first().remove();
+                        swalToast('success', data['message'])
+
+                    } else {
+
+                        swal.fire(
+                            'ERROR!',
+                            data['message'],
+                            'error'
+                        )
+
+                    }
+                });
+
+            }
+        })
+    }
+
+    function swalToast(type, message)
+    {
+        let swal = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+        swal.fire({
+            icon: type,
+            title: message
+        });
+    }   
+
+</script>

@@ -3,6 +3,7 @@
 namespace App\Repository\App;
 
 use App\Entity\App\Project;
+use App\Entity\Usr\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\AbstractQuery;
@@ -20,13 +21,29 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-    public function countAll()
+    public function countAll(User $user)
     {
         return $this->createQueryBuilder('p')
             ->select('COUNT(p)')
+            ->where('p.user = :user')
+            ->setParameter('user', $user)
             ->getQuery()
             ->setMaxResults(1)
             ->getSingleScalarResult()
+        ;
+    }
+
+    public function findOtherProject(Project $project, User $user)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.id != :project')
+            ->andWhere('p.user = :user')
+            ->setParameter('project', $project)
+            ->setParameter('user', $user)
+            ->orderBy('p.created_at', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
     }
 

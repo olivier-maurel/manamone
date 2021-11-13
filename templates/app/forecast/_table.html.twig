@@ -1,0 +1,5 @@
+{% for envelope in table %}
+    {{ include('app/forecast/_envelope.html.twig', {
+        envelope: envelope
+    }) }}
+{% endfor %}

@@ -1,0 +1,9 @@
+<script>
+    $(document.body).on('click', '.new-virtual', function(){
+        console.log('ok');
+        console.log($(this).parent());
+        // $.post('{{ path('app_row_virtual_new') }}', {category: $(this).attr('data-id'), function(data){
+        //     console.log(data);
+        // }});
+    });
+</script>

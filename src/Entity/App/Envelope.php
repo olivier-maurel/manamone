@@ -47,12 +47,18 @@ class Envelope
 
     /**
      * @ORM\OneToMany(targetEntity=Category::class, mappedBy="envelope", orphanRemoval=true)
+     * @ORM\OrderBy({"template" = "ASC"})
      */
     private $categories;
 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getId(): ?int

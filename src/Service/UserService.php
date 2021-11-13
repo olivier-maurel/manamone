@@ -23,15 +23,15 @@ class UserService extends AbstractController
 
         switch ($target) {
             case 'account':
-                $count = $em->getRepository(Account::class)->countAll();
+                $count = $em->getRepository(Account::class)->countAll($user);
                 $limit = $role->getAccount();
                 break;
             case 'project':
-                $count = $em->getRepository(Project::class)->countAll();
+                $count = $em->getRepository(Project::class)->countAll($user);
                 $limit = $role->getProject();
                 break;
             case 'envelope':
-                $count = $em->getRepository(Envelope::class)->countAll();
+                $count = $em->getRepository(Envelope::class)->countAll($user);
                 $limit = $role->getEnvelope();
                 break;
             default:

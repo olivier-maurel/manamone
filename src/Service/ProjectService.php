@@ -9,14 +9,23 @@ use App\Entity\App\CategoryTemplate;
 use App\Entity\App\Envelope;
 use App\Entity\App\RowVirtual;
 use App\Entity\App\RowFactual;
+use App\Entity\Usr\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProjectService extends AbstractController
 {
-    public function __construct(UserService $us)
+    public function __construct(
+        UserService $us,
+        EnvelopeService $es,
+        CategoryService $cs,
+        RowVirtualService $rvs
+    )
     {
-        $this->us = $us;
+        $this->us  = $us;
+        $this->es  = $es;
+        $this->cs  = $cs;
+        $this->rvs = $rvs;
     }
 
     public function addProject(Project $project)
@@ -32,30 +41,14 @@ class ProjectService extends AbstractController
         $account = $em->getRepository(Account::class)
             ->findOneBy([], ['created_at' => 'desc']);
 
-        $envelope = new Envelope();
-        $envelope->setProject($project)
-                 ->setAccount($account)
-                 ->setName('Mon enveloppe !')
-                 ->setDescription('Ma description...')
-                 ->setColor('#747474');
-        $em->persist($project);
-        $em->flush();
+        $envelope = $this->es->addEnvelope($project, $account);
 
         $categoryTemplate = $em->getRepository(CategoryTemplate::class)
             ->findAll();
 
-        foreach ($categoryTemplate as $template) {
-            $category = new Category();
-            $category->setEnvelope($envelope)
-                     ->setTemplate($template)
-                     ->setName($template->getName())
-                     ->setColor($template->getColor())
-                     ->setIcon($template->getIcon());
-            $em->persist($category);
-
-            $rowVirtual = new RowVirtual();
-            $rowVirtual->setCategory($category);
-            $em->persist($rowVirtual);
+        foreach ($categoryTemplate as $template) { 
+            $category = $this->cs->addCategory($envelope, $template);
+            $this->rvs->addRowVirtual($category);
         }
 
         $em->flush();
@@ -65,22 +58,40 @@ class ProjectService extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $results = [];
+        $results['id'] = $project->getId();
 
         $envelopes = $em->getRepository(Envelope::class)->findByProject($project);
         foreach ($envelopes as $envelope) {
             $key = $envelope->getId();
-            $results[$key]['envelope'][] = $envelope; 
+            $results['envelope'][] = $envelope; 
             $categories = $em->getRepository(Category::class)->findByEnvelope($envelope);
             foreach ($categories as $category) {
-                $results[$key]['categories'][] = $category;
+                $results['categories'][] = $category;
                 $rowVirtuals = $em->getRepository(RowVirtual::class)->findByCategory($category);
                 foreach ($rowVirtuals as $rowVirtual) {
-                    $results[$key]['rowVirtuals'][] = $rowVirtual;
-                    $results[$key]['rowFactuals'] = $em->getRepository(RowFactual::class)->findBy(['virtual_id' => $rowVirtual]);
+                    $results['rowVirtuals'][] = $rowVirtual;
+                    $results['rowFactuals'] = $em->getRepository(RowFactual::class)->findBy(['virtual_id' => $rowVirtual]);
                 }
             }
         }
 
         return $results;
+    }
+
+    public function setNewCurrentProject(Project $project)
+    {
+        $em   = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $current = $em->getRepository(Project::class)->findOtherProject(
+            $project , $user
+        );
+        $user->setCurrentProject($current);
+        return true;
+    }
+
+    public function getEnvelopes(User $user)
+    {
+        $project = $user->getCurrentProject();
+        return $project->getEnvelopes();
     }
 }

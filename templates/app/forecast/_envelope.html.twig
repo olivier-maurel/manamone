@@ -1,5 +1,12 @@
-<div class="p-2" style="background-color: {{ envelope.color }};">
-    <h2 class="h2">{{ envelope.name }}</h2>
+<div class="p-2 card" style="background-color: {{ envelope.color }};">
+    <div class="card-header d-flex justify-content-between">
+        <h2 class="h2">{{ envelope.name }}</h2>
+        <div>
+            <a class="btn btn-success add-item" data-code="cat" data-env="{{ envelope.id }}" data-tmp="ACT">Add Actif</a>
+            <a class="btn btn-danger new-category" data-envelope="{{ envelope.id }}" data-template="PAS">Add Passif</a>
+            <a class="btn btn-secondary new-category" data-envelope="{{ envelope.id }}" data-template="CAP">Add Capital</a>
+        </div>
+    </div>
     {% for category in envelope.categories %}
         {{ include('app/forecast/_category.html.twig', {
             category: category

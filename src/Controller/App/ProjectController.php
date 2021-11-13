@@ -126,6 +126,11 @@ class ProjectController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            // si il a des projets, je prend le dernier modifier ou sinon créer
+            // sinon je met a null
+            $this->projectService->setNewCurrentProject($project);
+            
             $entityManager->remove($project);
             $entityManager->flush();
         }

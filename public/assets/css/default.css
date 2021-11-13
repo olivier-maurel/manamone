@@ -1,0 +1,48 @@
+.bg-master {
+    background-color: #2f3640;
+}
+.bg-master-soft {
+    background-color: #3c4552;
+}
+.bg-main {
+    background-color: #353b48;
+}
+.txt-green {
+    color: #239527aa;
+}
+.txt-blue {
+    color: #1b88d7aa;
+}
+.txt-white {
+    color: #fff9;
+}
+
+.font-family {
+    font-family: Ubuntu, 'sans-serif';
+}
+.font-code {
+    font-family: monospace;
+}
+
+.full {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-center-y {
+    display: flex;
+    align-items: center;
+}
+.flex-center-x {
+    display: flex;
+    justify-content: center;
+}
+.flex-center-btw {
+    display: flex;
+    justify-content: space-between;
+}

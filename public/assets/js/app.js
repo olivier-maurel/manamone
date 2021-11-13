@@ -5,7 +5,6 @@
  */
 
 
- feather.replace();
  // Menu sticky
  function windowScroll() {
      var navbar = document.getElementById("navbar-custom");

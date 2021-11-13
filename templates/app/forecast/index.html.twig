@@ -9,17 +9,29 @@
     <div class="card table-container mt-5">
         <div class="card-header">
             <h1 class="text-center">{{ project.name }}</h1>
+            <a class="btn btn-primary d-block m-auto">Add Envelope</a>
         </div>
         <div class="card-body">
-            {% for item in table %}
-                <div class="">
-                    {% for envelope in item.envelope %}
-                        {{ include('app/forecast/_envelope.html.twig', {
-                            envelope: envelope
-                        }) }}
-                    {% endfor %}
-                </div>
-            {% endfor %}
+            <div id="forecast_table">
+                {{ include('app/forecast/_table.html.twig', {
+                    table: table
+                }) }}
+            </div>
         </div>
     </div>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal" data-whatever="@mdo">Open modal for @mdo</button>
+
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="modal_content">
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{% include('app/forecast/js/_functions.js.html.twig') %}
+{% include('app/forecast/js/_events.js.html.twig') %}
 {% endblock %}

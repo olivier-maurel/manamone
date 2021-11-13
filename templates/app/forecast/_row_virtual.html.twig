@@ -1,0 +1,9 @@
+<div id="rov_{{ row_virtual.id }}" class="row_virtual p-2">
+    <span class="rv-name">{{ row_virtual.name }}</span>
+    <span>{{ row_virtual.value }}</span>
+    <span>{{ row_virtual.frequency.name }}</span>
+    <a class="edit-virtual" data-class="row_virtual" data-id="{{ row_virtual.id }}" data-toggle="modal" data-target="#modal">
+        <i class="fa fa-edit"></i>
+    </a>
+    <a class="delete-item" data-code="rov" data-id="{{ row_virtual.id }}"><i class="fa fa-trash"></i></a>
+</div>

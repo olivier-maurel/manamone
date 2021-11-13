@@ -5,6 +5,7 @@ namespace App\Controller\App;
 use App\Entity\App\Account;
 use App\Form\App\AccountType;
 use App\Repository\App\AccountRepository;
+use App\Service\AccountService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AccountController extends AbstractController
 {
+
+    public function __construct(AccountService $accountService)
+    {
+        $this->accountService = $accountService;
+    }
+
     /**
      * @Route("/", name="app_account_index", methods={"GET"})
      */
@@ -86,6 +93,7 @@ class AccountController extends AbstractController
     public function delete(Request $request, Account $account): Response
     {
         if ($this->isCsrfTokenValid('delete'.$account->getId(), $request->request->get('_token'))) {
+            $this->accountService->setNewCurrentAccount($account);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($account);
             $entityManager->flush();

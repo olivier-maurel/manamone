@@ -8,8 +8,11 @@ parameters:
 services:
     # default configuration for services in *this* file
     _defaults:
+        public: true
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+            bind:
+                App\Service\CategoryService: 'category_service'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -30,4 +33,25 @@ services:
         arguments: [ "@doctrine.orm.entity_manager" ]
         tags: 
             - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\App\RowVirtual' }
+
+
+
+    #
+    # SERVICES
+    #
+    main_service:
+        class: App\Service\MainService
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container" ]
+        tags: 
+            - { name: 'main_service' }
+    #
+    cat_service:
+        class: App\Service\CategoryService
+        tags: 
+            - { name: 'cat_service' }
+    #  
+    rov_service:
+        class: App\Service\RowVirtualService
+        tags: 
+            - { name: 'rov_service' }
     

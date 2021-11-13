@@ -1,8 +1,14 @@
-<div class="p-2" style="background-color: {{ category.color }};">
-    <h3 class="h3">{{ category.name }}</h3>
-    {% for row in category.rowVirtuals %}
-        {{ include('app/forecast/_row.html.twig', {
-            row: row
-        }) }}
-    {% endfor %}
+<div id="cat_{{ category.id }}" class="p-2" style="background-color: {{ category.color }};" data-template="{{ category.template }}">
+    <div class="flex-center-y">
+        <h3 class="h3">{{ category.name }}</h3>
+        <a class="delete-item" data-code="cat" data-id="{{ category.id }}"><i class="fa fa-trash"></i></a>
+    </div>
+    <div class="category-content">
+        {% for row_virtual in category.rowVirtuals %}
+            {{ include('app/forecast/_row_virtual.html.twig', {
+                row_virtual: row_virtual
+            }) }}
+        {% endfor %}
+    </div>
+    <a class="add-item" data-code="rov" data-cat="{{ category.id }}"><i class="fa fa-plus"></i></a>
 </div>
