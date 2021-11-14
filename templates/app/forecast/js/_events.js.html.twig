@@ -15,20 +15,23 @@
     // Edit a virtual row.
     $(document.body).on('submit', '#form_item', function(e){editItem($(this),e)});
 
-    /**
-     * CATEGORY
-     */
-    // Add a new category.
-    $(document.body).on('click', '.new-category', function(){
-        let template = $(this).attr('data-template');
-        $.post("{{ path('app_category_new') }}",{
-            envelope: $(this).attr('data-envelope'),
-            category_template: template
-        }, function(data){
-                if (data['success'] === true) {
-                    $('div[data-template='+template+']').last().append(data['content']);
-                }
-            }
-        );
-    });
+    $(document.body).on('click', '.change-env', function(e){changeEnv($(this).data(),e)});
+
+
+    // /**
+    //  * CATEGORY
+    //  */
+    // // Add a new category.
+    // $(document.body).on('click', '.new-category', function(){
+    //     let template = $(this).attr('data-template');
+    //     $.post("{{ path('app_category_new') }}",{
+    //         envelope: $(this).attr('data-envelope'),
+    //         category_template: template
+    //     }, function(data){
+    //             if (data['success'] === true) {
+    //                 $('div[data-template='+template+']').last().append(data['content']);
+    //             }
+    //         }
+    //     );
+    // });
 </script>

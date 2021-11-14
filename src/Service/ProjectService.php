@@ -41,15 +41,9 @@ class ProjectService extends AbstractController
         $account = $em->getRepository(Account::class)
             ->findOneBy([], ['created_at' => 'desc']);
 
-        $envelope = $this->es->addEnvelope($project, $account);
-
-        $categoryTemplate = $em->getRepository(CategoryTemplate::class)
-            ->findAll();
-
-        foreach ($categoryTemplate as $template) { 
-            $category = $this->cs->addCategory($envelope, $template);
-            $this->rvs->addRowVirtual($category);
-        }
+        $envelope = $this->es->addEnvelope([
+            'pro' => $project, 'acc' => $account
+        ]);
 
         $em->flush();
     }

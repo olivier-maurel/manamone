@@ -7,8 +7,10 @@
     {
         $.post("{{ path('app_forecast_add') }}", {data: $this.data()},
         function(data){
-            if(data['success'] === true) 
+            if(data['success'] === true) {
                 $('#forecast_table').html(data['content']);
+                changeEnv({ page: $('.env-container').length-1 });
+            }
         });
     }
 
@@ -38,8 +40,14 @@
 
                     if(data['success'] === true) {
 
-                        $this.parents(`#${data['content']}_${$this.data('id')}`).first().remove();
-                        swalToast('success', data['message'])
+                        let parent = $this.parents(`#${$this.data('code')}_${$this.data('id')}`);
+                        $('#forecast_table').css('opacity', '0');
+                        setTimeout(function(){
+                            $('#forecast_table').html(data['content']);
+                            changeEnv({ page: (parent.data('page')-1) });
+                        },600);
+                        
+                        swalToast('success', data['message']);
 
                     } else {
 
@@ -96,6 +104,37 @@
                 $('#modal_content').html(data['content']);
             }
         });
+    }
+
+    function changeEnv(data, e)
+    {
+        let target      = $('#forecast_table');
+        let pages       = $('.env-container').length;
+        let direction   = Object.keys(data)[0];
+        let nbr         = data[direction];
+        let value       = nbr * 100;
+
+        if (nbr < 0) return;
+        else if (nbr >= pages) return;
+    
+        addUrlParam('page', '?env='+(nbr+1));
+
+        target.css('opacity', '.7');
+        target.css('left', '-'+value+'%');
+        setTimeout(function(){
+            target.css('opacity', '1');
+        }, 350);
+    }
+
+    function addUrlParam(page, url)
+    {
+        if (typeof (history.pushState) != "undefined") {
+            var obj = { Page: page, Url: url };
+            history.pushState(obj, obj.Page, obj.Url);
+        } else {
+            alert("Browser does not support HTML5.");
+        }
+
     }
 
     function swalToast(type, message)

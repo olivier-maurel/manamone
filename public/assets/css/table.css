@@ -1,4 +1,16 @@
+#forecast_table {
+    transition: .6s cubic-bezier(.74,.02,.3,.95);
+}
+
 .table-container {
+    width: 100%;
+    max-width: 70vw;
+    margin: auto;
+}
+.env-container {
+    width: calc(100vw - 3rem);
+}
+.env-content {
     width: 100%;
     max-width: 70vw;
     margin: auto;

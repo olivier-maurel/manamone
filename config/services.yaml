@@ -29,10 +29,19 @@ services:
         tags:
             - { name: twig.extension }
 
+
+    #
+    # LISTENERS
+    #
     App\Listener\RowVirtualListener:
         arguments: [ "@doctrine.orm.entity_manager" ]
         tags: 
             - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\App\RowVirtual' }
+    #
+    App\Listener\EnvelopeListener:
+        arguments: [ "@doctrine.orm.entity_manager" ]
+        tags: 
+            - { name: 'doctrine.orm.entity_listener', event: 'prePersist', entity: 'App\Entity\App\Envelope' }
 
 
 
@@ -44,6 +53,16 @@ services:
         arguments: [ "@doctrine.orm.entity_manager", "@service_container" ]
         tags: 
             - { name: 'main_service' }
+    #
+    usr_service:
+        class: App\Service\UserService
+        tags: 
+            - { name: 'usr_service' }
+    #
+    env_service:
+        class: App\Service\EnvelopeService
+        tags: 
+            - { name: 'env_service' }
     #
     cat_service:
         class: App\Service\CategoryService

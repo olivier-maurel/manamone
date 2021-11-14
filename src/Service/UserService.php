@@ -2,40 +2,50 @@
 
 namespace App\Service;
 
+use App\Service\MainService;
 use App\Entity\Usr\Role;
 use App\Entity\App\Account;
 use App\Entity\App\Project;
 use App\Entity\App\Envelope;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class UserService extends AbstractController
+class UserService extends MainService
 {
+
+    protected function getUser()
+    {
+        if (null === $token = $this->cn->get('security.token_storage')->getToken())
+            return null;
+
+        if (!\is_object($user = $token->getUser()))
+            return null;
+
+        return $user;
+    }
 
     /**
      * 
      */
     public function checkUserRole(string $target)
     {
-        $em         = $this->getDoctrine()->getManager();
         $user       = $this->getUser();
         $userRoles  = $user->getRoles();
-        $role       = $em->getRepository(Role::class)->findFormUserRoles($userRoles);
+        $role       = $this->em->getRepository(Role::class)->findFormUserRoles($userRoles);
 
         switch ($target) {
-            case 'account':
-                $count = $em->getRepository(Account::class)->countAll($user);
+            case 'acc':
+                $count = $this->em->getRepository(Account::class)->countAll($user);
                 $limit = $role->getAccount();
                 break;
-            case 'project':
-                $count = $em->getRepository(Project::class)->countAll($user);
+            case 'pro':
+                $count = $this->em->getRepository(Project::class)->countAll($user);
                 $limit = $role->getProject();
                 break;
-            case 'envelope':
-                $count = $em->getRepository(Envelope::class)->countAll($user);
+            case 'env':
+                $count = $this->em->getRepository(Envelope::class)->countAll($user->getCurrentProject());
                 $limit = $role->getEnvelope();
                 break;
             default:
-                return false;
+                return true;
         }
 
         if ($count >= $limit)

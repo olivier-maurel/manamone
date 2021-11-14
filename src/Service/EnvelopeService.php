@@ -2,24 +2,33 @@
 
 namespace App\Service;
 
-use App\Entity\App\Account;
+use App\Service\MainService;
 use App\Entity\App\Envelope;
-use App\Entity\App\Project;
-use App\Entity\Usr\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\App\CategoryTemplate;
 
-class EnvelopeService extends AbstractController
+class EnvelopeService extends MainService
 {
-    public function addEnvelope(Project $project, Account $account)
+    public function addEnvelope(array $data)
     {
+        $project = $data['pro'];
+
         $envelope = new Envelope();
         $envelope->setProject($project)
-                 ->setAccount($account)
                  ->setName('Mon enveloppe !')
                  ->setDescription('Ma description...')
                  ->setColor('#747474');
 
-        $this->getDoctrine()->getManager()->persist($project);
+        $categoryTemplate = $this->em->getRepository(CategoryTemplate::class)->findAll();
+
+        foreach ($categoryTemplate as $template) { 
+            $category = $this->cn->get('cat_service')->addCategory([
+                'env' => $envelope, 'tmp' => $template
+            ]);
+            $envelope->addCategory($category);
+        }
+
+        $this->em->persist($envelope);
+        $this->em->flush();
 
         return $envelope;
     }

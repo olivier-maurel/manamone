@@ -1,10 +1,15 @@
 <div id="cat_{{ category.id }}" class="p-2" style="background-color: {{ category.color }};" data-template="{{ category.template }}">
-    <div class="flex-center-y">
-        <h3 class="h3">{{ category.name }}</h3>
-        <a class="delete-item" data-code="cat" data-id="{{ category.id }}"><i class="fa fa-trash"></i></a>
-        <a class="edit-item" data-code="cat" data-id="{{ category.id }}" data-toggle="modal" data-target="#modal">
-            <i class="fa fa-edit"></i>
-        </a>
+    <div class="flex-center-y flex-center-btw">
+        <div>
+            <h3 class="h3 m-0 text-uppercase">{{ category.name }}</h3>
+            <span class="text-muted">{{ category.template.name }}</span>
+        </div>
+        <div>
+            <a class="delete-item" data-code="cat" data-id="{{ category.id }}"><i class="fa fa-trash"></i></a>
+            <a class="edit-item" data-code="cat" data-id="{{ category.id }}" data-toggle="modal" data-target="#modal">
+                <i class="fa fa-edit"></i>
+            </a>
+        </div>
     </div>
     <div class="category-content">
         {% for row_virtual in category.rowVirtuals %}

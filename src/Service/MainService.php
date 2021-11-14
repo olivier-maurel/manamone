@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Usr\Role;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

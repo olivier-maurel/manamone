@@ -6,21 +6,19 @@
 {% endblock %}
 
 {% block body %}
-    <div class="card table-container mt-5">
-        <div class="card-header">
+    <div class="mt-5">
+        <div class="">
             <h1 class="text-center">{{ project.name }}</h1>
-            <a class="btn btn-primary d-block m-auto">Add Envelope</a>
+            <a class="btn btn-primary d-block m-auto add-item" data-code="env" data-pro="{{ project.id }}">Add Envelope</a>
         </div>
-        <div class="card-body">
-            <div id="forecast_table">
+        <div class="">
+            <div id="forecast_table" class="d-flex w-content position-absolute" style="left: 0; opacity: 1;">
                 {{ include('app/forecast/_table.html.twig', {
                     table: table
                 }) }}
             </div>
         </div>
     </div>
-
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal" data-whatever="@mdo">Open modal for @mdo</button>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

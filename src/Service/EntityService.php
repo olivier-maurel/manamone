@@ -18,14 +18,22 @@ class EntityService extends MainService
     public function addEntity(Request $request)
     {
         $data     = $request->request->get('data');
-        $infos    = $this->getInfos($data['code']);
-        $function = 'add'.$infos->getClass();
+
+        if ($this->cn->get('usr_service')->checkUserRole($data['code']) === false)
+            return [
+                'success' => false,
+                'message' => 'Votre nombre limite de projet a été atteind'
+            ];
+
+        $function = 'add'.$this->getInfos($data['code'])->getClass();
+
+        $this->cn->get($data['code'].'_service')->$function(
+            $this->handlerAjax($request)
+        );
 
         return [
-            'label' => $infos->getLabel(),
-            'item' => $this->cn->get($data['code'].'_service')->$function(
-                $this->handlerAjax($request)
-            )
+            'success' => true,
+            'message' => null
         ];
     }
 

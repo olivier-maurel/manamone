@@ -1,5 +1,6 @@
-{% for envelope in table %}
+{% for keyEnv,envelope in table %}
     {{ include('app/forecast/_envelope.html.twig', {
+        keyEnv: keyEnv,
         envelope: envelope
     }) }}
 {% endfor %}

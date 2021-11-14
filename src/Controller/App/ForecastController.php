@@ -47,7 +47,8 @@ class ForecastController extends AbstractController
         $data = $this->es->addEntity($request);
         
         return new JsonResponse([
-            'success' => true,
+            'success' => $data['success'],
+            'message' => $data['message'],
             'content' => $this->renderView('app/forecast/_table.html.twig', [
                 'table' => $this->ps->getEnvelopes($this->getUser()),
             ])
@@ -63,8 +64,10 @@ class ForecastController extends AbstractController
 
         return new JsonResponse([
             'success' => true,
-            'content' => $id,
-            'message' => 'L\'élément "'.$id.'" a bien été supprimé'
+            'message' => 'L\'élément "'.$id.'" a bien été supprimé',
+            'content' => $this->renderView('app/forecast/_table.html.twig', [
+                'table' => $this->ps->getEnvelopes($this->getUser()),
+            ])
         ]);
     }
 

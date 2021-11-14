@@ -3,7 +3,7 @@
 namespace App\Repository\App;
 
 use App\Entity\App\Envelope;
-use App\Entity\Usr\User;
+use App\Entity\App\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,12 +20,12 @@ class EnvelopeRepository extends ServiceEntityRepository
         parent::__construct($registry, Envelope::class);
     }
 
-    public function countAll(User $user)
+    public function countAll(Project $project)
     {
         return $this->createQueryBuilder('e')
             ->select('COUNT(e)')
-            ->where('p.user = :user')
-            ->setParameter('user', $user)
+            ->where('e.project = :project')
+            ->setParameter('project', $project)
             ->getQuery()
             ->setMaxResults(1)
             ->getSingleScalarResult()
